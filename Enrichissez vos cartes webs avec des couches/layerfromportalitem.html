@@ -31,20 +31,14 @@
         center: [-118.80543,34.02700],
         zoom: 13
       });
-        
-              function addLayer(layerItemPromise, index) {
-        return layerItemPromise.then(function(layer){
-          map.add(layer, index);
-        });
-      }
-        
-              var trailheadsPortalItem = Layer.fromPortalItem({
+   
+     var trailheadsPortalItem = Layer.fromPortalItem({
         portalItem: {
           id: "33fc2fa407ab40f9add12fe38d5801f5"
         }
       });
 
-      addLayer(trailheadsPortalItem, 0);
+      map.add(trailheadsPortalItem, 0);
      
     });
   </script>
