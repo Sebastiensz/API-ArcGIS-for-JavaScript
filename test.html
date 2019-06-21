@@ -1,0 +1,77 @@
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>ArcGIS JavaScript Tutorials: Create a Starter App</title>
+  <style>
+    html, body, #viewDiv {
+      padding: 0;
+      margin: 0;
+      height: 100%;
+      width: 100%;
+    }
+  </style>
+  
+  <link rel="stylesheet" href="https://js.arcgis.com/4.11/esri/css/main.css">
+  <script src="https://js.arcgis.com/4.11/"></script>
+  
+  <script>  
+      require([
+        "esri/WebMap",
+        "esri/views/MapView","esri/layers/FeatureLayer","esri/renderers/DotDensityRenderer"
+      ], function(WebMap, MapView,FeatureLayer,DotDensityRenderer) {
+        
+const map = new WebMap({ //on charge directement une webmap qui contient uniquement une basemap, on va enrichir cette webmap avec une couche, une layer
+          portalItem: {
+            id: "56b5bd522c52409c90d902285732e9f1"
+          }
+        });
+      
+      var view = new MapView({
+        container: "viewDiv",
+        map: map,
+        center: [2,46],
+        zoom: 15,
+        constraints: { //permet d'empecher de trop zoomer
+            maxScale: 1000000
+          }
+      });
+   
+     var PortalItem = new FeatureLayer({
+        portalItem: {
+          id: "f12a983db1d14bb095c5708b95813fe6"
+        },
+       outline:false,
+      });
+        
+        PortalItem.renderer = {
+  type: "dot-density",  // autocasts as new DotDensityRenderer()
+  referenceDotValue: 300,  // 1 dot = 1,000 people when the view.scale is 1:1,000,000
+  referenceScale: 1000000,  // view.scale
+  outline:null,
+          attributes: [{
+    field: "C14_POP15P_CS7",
+    label: "C14_POP15P_CS7",
+    color: "green"
+  }, {
+    field: "C14_POP15P_CS3",
+    label: "C14_POP15P_CS3",
+    color: "blue"
+  },
+              {
+    field: "C14_POP15P_CS6",
+    label: "C14_POP15P_CS6",
+    color: "red"
+  },]
+}
+        
+      map.add(PortalItem, 1);
+     
+    });
+  </script>
+</head>
+<body>
+  <div id="viewDiv"></div>
+</body>
+</html>
+
