@@ -2,7 +2,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
-  <title>ArcGIS JavaScript Tutorials: Create a Starter App</title>
+  <title>Dot Density Renderer</title>
   <style>
     html, body, #viewDiv {
       padding: 0;
@@ -21,7 +21,7 @@
         "esri/views/MapView","esri/layers/FeatureLayer","esri/renderers/DotDensityRenderer","esri/widgets/Legend"
       ], function(WebMap, MapView,FeatureLayer,DotDensityRenderer,Legend) {
         
-const map = new WebMap({ //on charge directement une webmap qui contient uniquement une basemap, on va enrichir cette webmap avec une couche, une layer
+const map = new WebMap({ //we load directly a webmap that contains only a basemap, we will enrich this webmap with a layer, a layer
           portalItem: {
             id: "56b5bd522c52409c90d902285732e9f1"
           }
@@ -33,7 +33,7 @@ const map = new WebMap({ //on charge directement une webmap qui contient uniquem
         center: [3,46],
         //zoom: 10,
         scale:8000000,
-        constraints: { //permet d'empecher de trop zoomer
+        constraints: { //prevents zooming too much
             maxScale: 100000
           }
       });
