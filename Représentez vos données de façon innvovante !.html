@@ -96,3 +96,20 @@ view.ui.add(legend, "bottom-right");
   <div id="viewDiv"></div>
 </body>
 </html>
+
+
+
+
+        const colorVisVar = {
+  type: "color",
+  field: "time",
+ normalizationField: "",
+  stops: [
+    { value: 1559912752980, color: "blue" },
+    { value: 1562912752980, color: "red" }
+  ],
+  legendOptions: {
+    title: "osef"
+  }
+};
+renderer.visualVariables = [ colorVisVar ];
