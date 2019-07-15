@@ -8,10 +8,15 @@
     />
     <!--
   ArcGIS API for JavaScript, https://js.arcgis.com
-  For more information about the layers-csv sample, read the original sample description at developers.arcgis.com.
-  https://developers.arcgis.com/javascript/latest/sample-code/layers-csv/index.html
+  For more information about the layers-csv-projection sample, read the original sample description at developers.arcgis.com.
+  https://developers.arcgis.com/javascript/latest/sample-code/layers-csv-projection/index.html
   -->
-<title>CSVLayer - 4.12</title>
+<title>CSVLayer - Project points on the fly - 4.12</title>
+
+    <link
+      rel="stylesheet"
+      href="https://js.arcgis.com/4.12/esri/themes/dark-red/main.css"
+    />
 
     <style>
       html,
@@ -21,77 +26,124 @@
         margin: 0;
         height: 100%;
         width: 100%;
+        background-color: black;
       }
     </style>
 
-    <link
-      rel="stylesheet"
-      href="https://js.arcgis.com/4.12/esri/themes/light/main.css"
-    />
     <script src="https://js.arcgis.com/4.12/"></script>
 
     <script>
       require([
-        "esri/Map",
+        "esri/WebMap",
         "esri/layers/CSVLayer",
-        "esri/views/SceneView"
-      ], function(Map, CSVLayer, SceneView) {
-        // If CSV files are not on the same domain as your website, a CORS enabled server
-        // or a proxy is required.
-        var url =
-          "https://developers.arcgis.com/javascript/latest/sample-code/layers-csv/live/earthquakes.csv";
+        "esri/views/MapView",
+        "esri/widgets/Legend",
+        "esri/widgets/Expand"
+      ], function(WebMap, CSVLayer, MapView, Legend, Expand) {
+        const url =
+          "https://arcgis.github.io/arcgis-samples-javascript/sample-data/hurricanes.csv";
 
-        // Paste the url into a browser's address bar to download and view the attributes
-        // in the CSV file. These attributes include:
-        // * mag - magnitude
-        // * type - earthquake or other event such as nuclear test
-        // * place - location of the event
-        // * time - the time of the event
-
-        var template = {
-          title: "Earthquake Info",
-          content: "Magnitude {mag} {type} hit {place} on {time}."
-        };
-
-        var csvLayer = new CSVLayer({
+        const csvLayer = new CSVLayer({
+          title: "Hurricanes",
           url: url,
-          copyright: "USGS Earthquakes",
-          popupTemplate: template,
-          elevationInfo: {
-            // drapes icons on the surface of the globe
-            mode: "on-the-ground"
+          copyright: "NOAA",
+          popupTemplate: {
+            title: "{Name}",
+            content: [
+              {
+                type: "text",
+                text:
+                  "Category {Category} storm with that occurred at {ISO_time}."
+              },
+              {
+                type: "fields",
+                fieldInfos: [
+                  {
+                    fieldName: "wmo_pres",
+                    label: "Pressure"
+                  },
+                  {
+                    fieldName: "wmo_wind",
+                    label: "Wind Speed (mph)"
+                  }
+                ]
+              }
+            ],
+            fieldInfos: [
+              {
+                fieldName: "ISO_time",
+                format: {
+                  dateFormat: "short-date-short-time"
+                }
+              }
+            ]
+          },
+          renderer: {
+            type: "unique-value",
+            field: "Category",
+            uniqueValueInfos: createUniqueValueInfos()
           }
         });
 
-        csvLayer.renderer = {
-          type: "simple", // autocasts as new SimpleRenderer()
-          symbol: {
-            type: "point-3d", // autocasts as new PointSymbol3D()
-            symbolLayers: [
-              {
-                type: "icon", // autocasts as new IconSymbol3DLayer()
-                material: { color: [238, 69, 0, 0.75] },
-                outline: {
-                  width: 0.5,
-                  color: "white"
-                },
-                size: "12px"
-              }
-            ]
-          }
-        };
-
-        var map = new Map({
-          basemap: "gray",
+        const map = new WebMap({
+          // contains a basemap with a South Pole Stereographic projection
+          // the CSVLayer coordinates will re-project client-side
+          // with the Projection Engine to match the view's Spatial Reference
+          basemap: {
+            portalItem: {
+              id: "3113eacc129942b4abde490a51aeb33f"
+            }
+          },
           layers: [csvLayer]
         });
 
-        var view = new SceneView({
+        const view = new MapView({
           container: "viewDiv",
-          center: [138, 35],
-          zoom: 4,
-          map: map
+          map: map,
+          highlightOptions: {
+            color: "#ff642e",
+            haloOpacity: 1,
+            fillOpacity: 0.25
+          },
+          popup: {
+            dockEnabled: true,
+            dockOptions: {
+              breakpoint: false
+            }
+          }
         });
+
+        const legendExpand = new Expand({
+          view: view,
+          content: new Legend({
+            view: view,
+            style: "card"
+          })
+        });
+        view.ui.add(legendExpand, "top-left");
+
+        function createUniqueValueInfos() {
+          const fireflyImages = [
+            "cat1.png",
+            "cat2.png",
+            "cat3.png",
+            "cat4.png",
+            "cat5.png"
+          ];
+
+          const baseUrl =
+            "https://arcgis.github.io/arcgis-samples-javascript/sample-data/";
+
+          return fireflyImages.map(function(url, i) {
+            return {
+              value: i + 1, // Category number
+              symbol: {
+                type: "picture-marker",
+                url: baseUrl + url
+              }
+            };
+          });
+        }
       });
     </script>
   </head>
@@ -100,4 +152,3 @@
     <div id="viewDiv"></div>
   </body>
 </html>
-
