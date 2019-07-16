@@ -119,9 +119,8 @@
       option4.textContent="all_hour.geojson";
       séisme.appendChild(option4);
         
-    // define the event when we change the earthquake in the dropdown list, the map is updated with the new laye
-  let séisme2=document.getElementById("séisme");      
-séisme2.addEventListener("change",function(){
+    // define the event when we change the earthquake in the dropdown list, the map is updated with the new laye    
+séisme.addEventListener("change",function(){
   let selectedService=séisme.options[séisme.selectedIndex].textContent;
         let layer = new GeoJSONLayer({
           url:"https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/" +selectedService,
