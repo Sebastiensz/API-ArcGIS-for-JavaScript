@@ -84,7 +84,7 @@
 
         //load a first layer
         const geojsonLayer = new GeoJSONLayer({
-          url: "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojson",
+          url: "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.geojson",
           renderer: renderer //optional
         });
 
@@ -101,21 +101,23 @@
         });
         // create a dropdown list with several options to see more or less recent earthquakes
       let séisme=document.getElementById("séisme");
-      let option1=document.createElement("option");
-      option1.textContent="all_hour.geojson";
+      
+        let option1=document.createElement("option");
+     option1.textContent="all_month.geojson";
       séisme.appendChild(option1);
-      
-      let option2=document.createElement("option");
-      option2.textContent="all_day.geojson";
+        
+     let option2=document.createElement("option");
+     option2.textContent="all_week.geojson";
       séisme.appendChild(option2);
-      
-     let option3=document.createElement("option");
-     option3.textContent="all_week.geojson";
+        
+      let option3=document.createElement("option");
+      option3.textContent="all_day.geojson";
       séisme.appendChild(option3);
         
       let option4=document.createElement("option");
-     option4.textContent="all_month.geojson";
+      option4.textContent="all_hour.geojson";
       séisme.appendChild(option4);
+        
     // define the event when we change the earthquake in the dropdown list, the map is updated with the new laye
   let séisme2=document.getElementById("séisme");      
 séisme2.addEventListener("change",function(){
