@@ -24,17 +24,13 @@
       href="https://js.arcgis.com/4.12/esri/themes/light/main.css"
     />
     <script src="https://js.arcgis.com/4.12/"></script>
-
+<select id="séisme"></select>
     <script>
       require([
         "esri/Map",
         "esri/layers/GeoJSONLayer",
         "esri/views/MapView"
       ], function(Map, GeoJSONLayer, MapView) {
-        // If GeoJSON files are not on the same domain as your website, a CORS enabled server
-        // or a proxy is required.
-        const url =
-          "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.geojson";
 
         // Paste the url into a browser's address bar to download and view the attributes
         // in the GeoJSON file. These attributes include:
@@ -45,8 +41,8 @@
         // Use the Arcade Date() function to format time field into a human-readable format
 
         const template = {
-          title: "Earthquake Info",
-          content: "Magnitude {mag} {type} hit {place} on {time}",
+          title: "Info séisme",
+          content: "Magnitude {mag} {type} a frappé {place} le {time}",
           fieldInfos: [
             {
               fieldName: "time",
@@ -57,6 +53,7 @@
           ]
         };
 
+        //size of points depends on the magnitude
         const renderer = {
           type: "simple",
           field: "mag",
@@ -85,10 +82,9 @@
           ]
         };
 
+        //load a first layer
         const geojsonLayer = new GeoJSONLayer({
-          url: url,
-          copyright: "USGS Earthquakes",
-          popupTemplate: template,
+          url: "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojson",
           renderer: renderer //optional
         });
 
@@ -99,11 +95,43 @@
 
         const view = new MapView({
           container: "viewDiv",
-          center: [-168, 46],
+          center: [2.3488, 48.8534],
           zoom: 3,
           map: map
         });
+        // create a dropdown list with several options to see more or less recent earthquakes
+      let séisme=document.getElementById("séisme");
+      let option1=document.createElement("option");
+      option1.textContent="all_hour.geojson";
+      séisme.appendChild(option1);
+      
+      let option2=document.createElement("option");
+      option2.textContent="all_day.geojson";
+      séisme.appendChild(option2);
+      
+     let option3=document.createElement("option");
+     option3.textContent="all_week.geojson";
+      séisme.appendChild(option3);
+        
+      let option4=document.createElement("option");
+     option4.textContent="all_month.geojson";
+      séisme.appendChild(option4);
+    // define the event when we change the earthquake in the dropdown list, the map is updated with the new laye
+  let séisme2=document.getElementById("séisme");      
+séisme2.addEventListener("change",function(){
+  let selectedService=séisme.options[séisme.selectedIndex].textContent;
+        let layer = new GeoJSONLayer({
+          url:"https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/" +selectedService,
+          renderer:renderer,
+          popupTemplate:template,
+        })
+        map.removeAll(); //don't have too much layers loaded
+        map.add(layer);
+
+      })
+  
       });
+
     </script>
   </head>
 
