@@ -48,9 +48,17 @@
         // * place - location of the event
         // * time - the time of the event
 
-        var template = {
-          title: "Earthquake Info",
-          content: "Magnitude {mag} {type} hit {place} on {time}."
+        const template = {
+          title: "Info séisme",
+          content: "Magnitude {mag} {type} a frappé {place} le {time}",
+          fieldInfos: [
+            {
+              fieldName: "time",
+              format: {
+                dateFormat: "short-date-short-time"
+              }
+            }
+          ]
         };
 
         var csvLayer = new CSVLayer({
