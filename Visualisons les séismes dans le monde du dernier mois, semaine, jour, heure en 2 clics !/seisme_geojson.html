@@ -18,9 +18,6 @@
         width: 100%;
       }
       #séisme {
-        position:absolute;
-        right: 10px;
-        z-index:1; /* display the dropdown list above the map */
         color:brown;
       }
     </style>
@@ -125,7 +122,8 @@
       option4.textContent="all_hour.geojson";
       séisme.appendChild(option4);
         
-    // define the event when we change the earthquake in the dropdown list, the map is updated with the new laye    
+    // define the event when we change the earthquake in the dropdown list, the map is updated with the new layer
+view.ui.add(séisme, "top-right");
 séisme.addEventListener("change",function(){
   let selectedService=séisme.options[séisme.selectedIndex].textContent;
         let layer = new GeoJSONLayer({
