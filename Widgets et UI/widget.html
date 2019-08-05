@@ -45,16 +45,21 @@
           zoom: 14
         });
 
-        // import widgets which is not in the Default UI
+        // use widgets which is not in the Default UI
         var search = new Search({
           view: view
         });
 
+        //add widgets on the UI
         view.ui.add("logoDiv", "bottom-right");
-        view.ui.add(search, "top-right");
+        view.ui.add(search, "top-right"); 
         
-        view.on("click", function(event){
-  view.ui.remove("logoDiv"); 
+        //
+        view.on("keypress", function(event){
+            
+          if (view.zoom >=16) {
+            view.ui.remove(["logoDiv",search]);
+          } 
               }); 
       });
       
