@@ -33,21 +33,24 @@
         "esri/widgets/BasemapGallery","esri/layers/FeatureLayer"
       ], function(Map, SceneView, Expand, BasemapGallery,FeatureLayer) {
         var map = new Map({
-          basemap: "satellite"
+          basemap: "osm"
         });
 
  var Layerenderer = {
-type: "simple-fill",  // autocasts as new SimpleFillSymbol()
-  color: [ 51,51, 204, 0.9 ],
-  style: "solid", //none --> the polygon has no fill
+type: "simple",
+   symbol: {
+  type: "simple-fill",  // autocasts as new SimpleFillSymbol()
+  color: [ 51,51, 204, 1 ],
+  style: "solid",
   outline: {  // autocasts as new SimpleLineSymbol()
     color: "white",
     width: 1
   }
+   }
 };
         
 var Layer = new FeatureLayer({
-        url: "https://services1.arcgis.com/XLY7M6F9oPzjvKmJ/arcgis/rest/services/Population_Belgique_2011/FeatureServer/0",
+        url: "https://services.arcgis.com/d3voDfTFbHOCRwVR/arcgis/rest/services/REGION_2018/FeatureServer/0",
       //renderer:Layerenderer
       });
         
@@ -78,7 +81,18 @@ var Layer = new FeatureLayer({
 //widgetExpand.collapse();
 //});
         view.watch("map.basemap.title",function(){
-          widgetExpand.collapse();                                       
+          widgetExpand.collapse();           Layer.renderer = {
+type: "simple",
+   symbol: {
+  type: "simple-fill",  // autocasts as new SimpleFillSymbol()
+  color: [ 51,51, 204, 0.4 ],
+  style: "solid",
+  outline: {  // autocasts as new SimpleLineSymbol()
+    color: "white",
+    width:1
+  }
+   }
+};               
                                                  });
         // Add the expand instance to the ui
         view.ui.add(widgetExpand, "top-right");
