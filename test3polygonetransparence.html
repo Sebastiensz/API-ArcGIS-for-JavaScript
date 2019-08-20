@@ -39,7 +39,7 @@ var Layer = new FeatureLayer({
       });
       map.add(Layer);
         
-           Layer.renderer = {
+Layer.renderer = {
 type: "simple",
    symbol: {
   type: "simple-fill",  // autocasts as new SimpleFillSymbol()
@@ -67,10 +67,7 @@ type: "simple",
           view: view,
         });
 
-        // Create an Expand instance and set the content
-        // property to the DOM node of the basemap gallery widget
-        // Use an Esri icon font to represent the content inside
-        // of the Expand widget
+        // Create an Expand instance 
 
         var widgetExpand = new Expand({
           view: view,
