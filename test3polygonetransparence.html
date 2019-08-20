@@ -29,8 +29,7 @@
       require([
         "esri/Map",
         "esri/views/SceneView",
-        "esri/widgets/Expand",      "esri/widgets/BasemapGallery","esri/layers/FeatureLayer","esri/request"
-      ], function(Map, SceneView, Expand, BasemapGallery,FeatureLayer,Request) {
+        "esri/widgets/Expand",      "esri/widgets/BasemapGallery","esri/layers/FeatureLayer"], function(Map, SceneView, Expand, BasemapGallery,FeatureLayer) {
         var map = new Map({
           basemap: "osm"
         });
@@ -51,8 +50,7 @@ type: "simple",
     width:1
   }
    }
-};
-        
+};       
         var view = new SceneView({
           container: "viewDiv",
           map: map,
@@ -78,13 +76,9 @@ type: "simple",
           view: view,
           content: basemapGallery
         });
-
-        // close the expand when click outside
-       // view.on("click", function(event){
-//widgetExpand.collapse();
-//});
+//watch the property map.basemap.title from the view, if it changes, we call the function     
         view.watch("map.basemap.title",function(){
-          widgetExpand.collapse();
+          widgetExpand.collapse(); //close the expand widget
           let varJSON=map.basemap.toJSON();
           if (varJSON.baseMapLayers[0].title=="World Imagery"){
 
