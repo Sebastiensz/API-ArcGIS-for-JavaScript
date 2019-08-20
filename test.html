@@ -88,6 +88,15 @@ var legend = new Legend({
 });
 
 view.ui.add(legend, "bottom-right");
+                let url="https://server.arcgisonline.com/arcgis/rest/?f=json";
+let options ={responseType:"json"};
+
+Request("https://basemaps.arcgis.com/arcgis/rest/services/OpenStreetMap_v2/VectorTileServer", options)
+.then(function(response){
+
+let result=response.data;
+console.log(result.type);
+})
      
     });
   </script>
