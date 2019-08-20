@@ -6,7 +6,7 @@
       content="initial-scale=1, maximum-scale=1,user-scalable=no"
     />
 
-<title>Expand widget - 4.12</title>
+    <title>Map changes depends on property watching - 4.12</title>
 
     <link
       rel="stylesheet"
@@ -29,13 +29,18 @@
       require([
         "esri/Map",
         "esri/views/SceneView",
-        "esri/widgets/Expand",      "esri/widgets/BasemapGallery","esri/layers/FeatureLayer"
-      ], function(Map, SceneView, Expand, BasemapGallery,FeatureLayer) {
+        "esri/widgets/Expand",      "esri/widgets/BasemapGallery","esri/layers/FeatureLayer","esri/request"
+      ], function(Map, SceneView, Expand, BasemapGallery,FeatureLayer,Request) {
         var map = new Map({
           basemap: "osm"
         });
-
- var Layerenderer = {
+        
+var Layer = new FeatureLayer({
+        url: "https://services.arcgis.com/d3voDfTFbHOCRwVR/arcgis/rest/services/REGION_2018/FeatureServer/0",
+      });
+      map.add(Layer);
+        
+           Layer.renderer = {
 type: "simple",
    symbol: {
   type: "simple-fill",  // autocasts as new SimpleFillSymbol()
@@ -43,22 +48,21 @@ type: "simple",
   style: "solid",
   outline: {  // autocasts as new SimpleLineSymbol()
     color: "white",
-    width: 1
+    width:1
   }
    }
 };
         
-var Layer = new FeatureLayer({
-        url: "https://services.arcgis.com/d3voDfTFbHOCRwVR/arcgis/rest/services/REGION_2018/FeatureServer/0",
-      //renderer:Layerenderer
-      });
-        
-
-      map.add(Layer);
-        
         var view = new SceneView({
           container: "viewDiv",
-          map: map
+          map: map,
+          camera: {
+            position: {
+              x: 2.35, // lon
+              y: 47,   // lat
+              z: 3000000 // elevation in meters
+            },
+          }
         });
         
         var basemapGallery = new BasemapGallery({
@@ -80,24 +84,25 @@ var Layer = new FeatureLayer({
 //widgetExpand.collapse();
 //});
         view.watch("map.basemap.title",function(){
-          widgetExpand.collapse();           
-          
-     if(map.basemap.title=="Imagerie" || map.basemap.title=="Imagery Hybrid"){   
-       
+          widgetExpand.collapse();
+          let varJSON=map.basemap.toJSON();
+          if (varJSON.baseMapLayers[0].title=="World Imagery"){
+
 Layer.renderer = {
 type: "simple",
    symbol: {
   type: "simple-fill",  // autocasts as new SimpleFillSymbol()
-  color: [ 51,51, 204, 0.2 ],
+  color: [ 51,51, 204, 0 ],
   style: "solid",
   outline: {  // autocasts as new SimpleLineSymbol()
     color: "white",
     width:1
   }
    }
-};  
-       
- }else{
+};         
+ }
+          
+        else{
    Layer.renderer = {
 type: "simple",
    symbol: {
