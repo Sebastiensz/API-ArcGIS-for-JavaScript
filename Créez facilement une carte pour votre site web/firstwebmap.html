@@ -1,10 +1,22 @@
-<!DOCTYPE html>
 <html>
-<head>
-	<title>Ma première carte</title>
-	<script src = 'https://js.arcgis.com/4.11'></script>
-	<link rel = "stylesheet" href = "https://js.arcgis.com/4.11/esri/css/main.css">
-</head>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <title>Ma première carte</title>
+
+    <style>
+      html,
+      body,
+      #viewDiv {
+        padding: 0;
+        margin: 0;
+        height: 100%;
+        width: 100%;
+      }
+    </style>
+
+    <link rel="stylesheet" href="https://js.arcgis.com/4.18/esri/themes/light/main.css">
+    <script src="https://js.arcgis.com/4.18/"></script>
 <body>
 <script>
 
@@ -14,7 +26,8 @@ require (["esri/config","esri/Map","esri/views/MapView"],
 	esriConfig.apiKey = "AAPK3f8377a6b0ae49539c5a95223377fbfaEsELNnhZ6Qd0G3m8d26kcm9L3vGEWHlhRKFEEfQaAaTnCgXR8viG12yIxwqX04oc";//"YOUR-API-KEY";
 	let map1 = new Map({basemap:"arcgis-topographic"})
 	let mapview = new MapView({container: "carte", map: map1, 
-				   center: [48.82639566683736, 2.2505492158227987], zoom: 15});
+				   center: [2.2505492158227987,48.82639566683736], 
+                             zoom: 14});
 })
 </script>
 
