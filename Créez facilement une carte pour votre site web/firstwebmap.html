@@ -8,15 +8,14 @@
 <body>
 <script>
 
-require (["esri/Map","esri/views/MapView"], 
-		function(Map,MapView)
-		{	
-			 
-			let map1 = new Map({basemap:"topo"})
-  
-		    let mapview = new MapView({container: "carte", map: map1, 
-			 center: [48.82639566683736, 2.2505492158227987], zoom: 15});
-		})
+require (["esri/config","esri/Map","esri/views/MapView"], 
+		function(esriConfig,Map,MapView)
+	 {
+	esriConfig.apiKey = "AAPK3f8377a6b0ae49539c5a95223377fbfaEsELNnhZ6Qd0G3m8d26kcm9L3vGEWHlhRKFEEfQaAaTnCgXR8viG12yIxwqX04oc";//"YOUR-API-KEY";
+	let map1 = new Map({basemap:"arcgis-topographic"})
+	let mapview = new MapView({container: "carte", map: map1, 
+				   center: [48.82639566683736, 2.2505492158227987], zoom: 15});
+})
 </script>
 
 
